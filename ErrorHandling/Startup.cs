@@ -31,15 +31,19 @@ namespace ErrorHandling
         {
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage(); // development ortamindaysa bu middleware yapýsý ekleniyor.
+                app.UseDeveloperExceptionPage(); // development ortamindaysa bu middleware yapýsý ekleniyor. developer kisilerin gordugu sayfa.
                 // default hata sayfalari bu middleware ile otomatik olarak geliyor. 
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            // her durumda calissin diye else'in disina aldik. (normalde yukarida production ortaminda calisiyor.)
+            // bu kod hangi sayfada hata varsa o sayfada home/error iceriklirini gosteriyor. home/error'e gitmiyor, sadece iceriklerini gosteriyor.
+            app.UseExceptionHandler("/Home/Error"); // hata sayfasina yonlendiren middleware. kullanici kisilerin gordugu sayfa.
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
