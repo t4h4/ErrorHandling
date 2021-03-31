@@ -1,5 +1,6 @@
 ﻿using ErrorHandling.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -39,9 +40,12 @@ namespace ErrorHandling.Controllers
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)] // cache 0, lokasyona göre veri yok, aynı zamanda hic bir cache'i kaydetmiyor.
         public IActionResult Error()
         {
-            // RequestId o anki aktivitenin guncel id'sini verir. eger onu bulamazsa null olursa ?? isaretinden sonraki kisim calisir.
-            // ilk ifade null olursa burdaki (HttpContext.TraceIdentifier) data alinir.
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            var exception = HttpContext.Features.Get<IExceptionHandlerFeature>(); //uygulamanin herhangi bir yerinden gelen hata yakalandi.
+
+            ViewBag.path = "hata_yolu";
+            ViewBag.message = exception.Error.Message;
+
+            return View();
         }
     }
 }
