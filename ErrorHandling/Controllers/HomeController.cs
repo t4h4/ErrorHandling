@@ -20,6 +20,12 @@ namespace ErrorHandling.Controllers
 
         public IActionResult Index()
         {
+            //throw new Exception("Database baglantisinda bir hata meydana geldi.");
+            int value1 = 5;
+            int value2 = 0;
+
+            int result = value1 / value2;
+
             return View();
         }
 
