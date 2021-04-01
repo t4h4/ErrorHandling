@@ -10,6 +10,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+
+
 namespace ErrorHandling
 {
     public class Startup
@@ -31,7 +33,7 @@ namespace ErrorHandling
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env) // middleware
         {
 
-            // Request <------[UseDeveloperExceptionPage()]------[ExceptionHandler("/Home/Error")]------[UseStatusCodePages()]------> Response
+            // Request <------[UseDeveloperExceptionPage()]------[ExceptionHandler("/Home/Error")]------[UseStatusCodePages()]------[UseDatabaseErrorPage()]------> Response
 
             if (env.IsDevelopment())
             {
@@ -46,6 +48,8 @@ namespace ErrorHandling
                     context.HttpContext.Response.ContentType = "text/plain";
                     await context.HttpContext.Response.WriteAsync($"Bir hata var xd.Durum kodu:{context.HttpContext.Response.StatusCode}");
                 });
+
+                app.UseDatabaseErrorPage();
             }
             else
             {
@@ -56,7 +60,17 @@ namespace ErrorHandling
 
             // her durumda calissin diye else'in disina aldik. (normalde yukarida production ortaminda calisiyor.)
             // bu kod hangi sayfada hata varsa o sayfada home/error iceriklirini gosteriyor. home/error'e gitmiyor, sadece iceriklerini gosteriyor.
-            app.UseExceptionHandler("/Home/Error"); // hata sayfasina yonlendiren middleware. kullanici kisilerin gordugu sayfa.
+            app.UseExceptionHandler(context =>
+            {
+                context.Run(async page =>
+                {
+                    page.Response.StatusCode = 500; //server tarafinda hata kodu. client hatalarý 400 ile baslar. basarili durumlar 200, yonlendirmeler 300
+                    page.Response.ContentType = "text/html";
+                    await page.Response.WriteAsync($"<html><head></head><h1>Hata var {page.Response.StatusCode}</h1></html>");
+;                });
+            });
+
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
