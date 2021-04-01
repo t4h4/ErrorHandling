@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace ErrorHandling.Controllers
 {
-    // [CustomHandleExceptionFilterAttribute(ErrorPage = "hata1")] bu controller seviyesinde hata olursa bu sayfayı bas. 
+    [CustomHandleExceptionFilterAttribute(ErrorPage = "hata1")] // bu controller seviyesinde hata olursa bu sayfayı bas. 
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
