@@ -1,7 +1,9 @@
 ﻿
 @{
+    Exception ex = ViewData["exception"] as Exception; // as keyword'u ile Exception turune donusturuyoruz.
     ViewData["Title"] = "Hata2";
 }
 
 <h1>Hata2</h1>
-
+<h1>Hata mesajı: @ex.Message</h1>
+<h3>Hata sayfası: @ViewData["url"]</h3>  @*yukarida belirtebilirdik ama gerek yok.*@

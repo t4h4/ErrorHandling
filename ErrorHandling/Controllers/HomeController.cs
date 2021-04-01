@@ -7,11 +7,13 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace ErrorHandling.Controllers
 {
+    // [CustomHandleExceptionFilterAttribute(ErrorPage = "hata1")] bu controller seviyesinde hata olursa bu sayfayı bas. 
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -21,7 +23,7 @@ namespace ErrorHandling.Controllers
             _logger = logger;
         }
 
-        [CustomHandleExceptionFilterAttribute] //asagidaki method'da hata meydana gelirse OnException method tetiklenecek.
+        [CustomHandleExceptionFilterAttribute(ErrorPage = "hata1")] //asagidaki method'da hata meydana gelirse OnException method tetiklenecek.
         public IActionResult Index()
         {
             //throw new Exception("Database baglantisinda bir hata meydana geldi.");
@@ -33,8 +35,10 @@ namespace ErrorHandling.Controllers
             return View();
         }
 
+        [CustomHandleExceptionFilterAttribute(ErrorPage = "hata2")]
         public IActionResult Privacy()
         {
+            throw new FileNotFoundException();
             return View();
         }
 
