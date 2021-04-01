@@ -29,10 +29,15 @@ namespace ErrorHandling
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env) // middleware
         {
+
+            // Request <------[UseDeveloperExceptionPage()]------[ExceptionHandler("/Home/Error")]------[UseStatusCodePages()]------> Response
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage(); // development ortamindaysa bu middleware yapýsý ekleniyor. developer kisilerin gordugu sayfa.
                 // default hata sayfalari bu middleware ile otomatik olarak geliyor. 
+
+                app.UseStatusCodePages(); // sayfalar icin hata varsa, status code donderiyor.
             }
             else
             {
