@@ -41,7 +41,7 @@ namespace ErrorHandling
                 // default hata sayfalari bu middleware ile otomatik olarak geliyor. 
                 
                 // 1. yol
-                app.UseStatusCodePages("text/plain","Bir hata var. Durum kodu: {0}");
+                //app.UseStatusCodePages("text/plain","Bir hata var. Durum kodu: {0}");
                 // 2. yol
                 app.UseStatusCodePages(async context => // StatusCodeContext'e girdik. 
                 {
@@ -60,15 +60,15 @@ namespace ErrorHandling
 
             // her durumda calissin diye else'in disina aldik. (normalde yukarida production ortaminda calisiyor.)
             // bu kod hangi sayfada hata varsa o sayfada home/error iceriklirini gosteriyor. home/error'e gitmiyor, sadece iceriklerini gosteriyor.
-            app.UseExceptionHandler(context =>
-            {
-                context.Run(async page =>
-                {
-                    page.Response.StatusCode = 500; //server tarafinda hata kodu. client hatalarý 400 ile baslar. basarili durumlar 200, yonlendirmeler 300
-                    page.Response.ContentType = "text/html";
-                    await page.Response.WriteAsync($"<html><head></head><h1>Hata var {page.Response.StatusCode}</h1></html>");
-;                });
-            });
+            //app.UseExceptionHandler(context =>
+            //{
+            //    context.Run(async page =>
+            //    {
+            //        page.Response.StatusCode = 500; //server tarafinda hata kodu. client hatalarý 400 ile baslar. basarili durumlar 200, yonlendirmeler 300
+            //        page.Response.ContentType = "text/html";
+            //        await page.Response.WriteAsync($"<html><head></head><h1>Hata var {page.Response.StatusCode}</h1></html>");
+            //    });
+            //});
 
 
             app.UseHttpsRedirection();

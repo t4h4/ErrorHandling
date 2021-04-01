@@ -1,4 +1,5 @@
-﻿using ErrorHandling.Models;
+﻿using ErrorHandling.Filter;
+using ErrorHandling.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
@@ -20,6 +21,7 @@ namespace ErrorHandling.Controllers
             _logger = logger;
         }
 
+        [CustomHandleExceptionFilterAttribute] //asagidaki method'da hata meydana gelirse OnException method tetiklenecek.
         public IActionResult Index()
         {
             //throw new Exception("Database baglantisinda bir hata meydana geldi.");
@@ -45,6 +47,16 @@ namespace ErrorHandling.Controllers
             ViewBag.path = "hata_yolu";
             ViewBag.message = exception.Error.Message;
 
+            return View();
+        }
+
+        public IActionResult Hata1()
+        {
+            return View();
+        }
+
+        public IActionResult Hata2()
+        {
             return View();
         }
     }
