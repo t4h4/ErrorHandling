@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -36,8 +37,15 @@ namespace ErrorHandling
             {
                 app.UseDeveloperExceptionPage(); // development ortamindaysa bu middleware yapýsý ekleniyor. developer kisilerin gordugu sayfa.
                 // default hata sayfalari bu middleware ile otomatik olarak geliyor. 
-
-                app.UseStatusCodePages(); // sayfalar icin hata varsa, status code donderiyor.
+                
+                // 1. yol
+                app.UseStatusCodePages("text/plain","Bir hata var. Durum kodu: {0}");
+                // 2. yol
+                app.UseStatusCodePages(async context => // StatusCodeContext'e girdik. 
+                {
+                    context.HttpContext.Response.ContentType = "text/plain";
+                    await context.HttpContext.Response.WriteAsync($"Bir hata var xd.Durum kodu:{context.HttpContext.Response.StatusCode}");
+                });
             }
             else
             {
