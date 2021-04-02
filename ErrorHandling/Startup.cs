@@ -93,3 +93,6 @@ namespace ErrorHandling
         }
     }
 }
+
+
+// spesifik durumlarda filtre hata yakalayýcýlar kullanýlmalý. normal durumlada middleware yeterlidir. 
