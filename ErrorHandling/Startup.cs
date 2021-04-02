@@ -1,3 +1,4 @@
+using ErrorHandling.Filter;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -27,6 +28,11 @@ namespace ErrorHandling
         public void ConfigureServices(IServiceCollection services) // services
         {
             services.AddControllersWithViews();
+
+            services.AddMvc(options =>
+            {
+                options.Filters.Add(new CustomHandleExceptionFilterAttribute() { ErrorPage="hata2" }); // tum uygulamada bi' hata oldugunda hata1 sayfasi gozuksun.
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
